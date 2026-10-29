@@ -2,8 +2,6 @@
 
 A playground and centralized repository for system design concepts, frameworks, and detailed architectural implementations. This project combines Java-based design examples with comprehensive documentation for real-world system design interview problems.
 
-[![License: MIT](https://shields.io)](https://opensource.org)
-
 ---
 
 ## 📁 Repository Structure
