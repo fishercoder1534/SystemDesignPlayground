@@ -41,6 +41,36 @@
       6. Security: How secure does the system need to be? Consider data protection, access control, and compliance with regulations. 
       7. Fault Tolerance: How well does the system need to handle failures? Consider redundancy, failover, and recovery mechanisms. 
       8. Compliance: Are there legal or regulatory requirements the system needs to meet? Consider industry standards, data protection laws, and other regulations.
+3. Capacity Estimation
+   1. In most scenarios, you're dealing with a large, distributed system – and it's reasonable to assume as much. Many candidates will calculate storage, DAU, and QPS, only to conclude, "ok, so it's a lot. Got it." As interviewers, we gain nothing from this except that you can perform basic arithmetic.
+   2. Our suggestion is to explain to the interviewer that you would like to skip on estimations upfront and that you will do math while designing when/if necessary.
+4. Core Entities
+   1. This helps you to define terms, understand the data central to your design, and gives you a foundation to build on. These are the core entities that your API will exchange and that your system will persist in a Data Model.
+   2. Why not list the entire data model at this point? Because you don't know what you don't know. As you design your system, you'll discover new entities and relationships that you didn't anticipate. By starting with a small list, you can quickly iterate and add to it as you go.
+5. API or System Interface
+   1. You have a quick decision to make here -- which API protocol should you use? 
+      1. REST (Representational State Transfer): Uses HTTP verbs (GET, POST, PUT, DELETE) to perform CRUD operations on resources. This should be your default choice for most interviews.
+      2. GraphQL: Allows clients to specify exactly what data they want to receive, avoiding over-fetching and under-fetching. Choose this when you have diverse clients with different data needs. 
+      3. RPC (Remote Procedure Call): Action-oriented protocol (like gRPC) that's faster than REST for service-to-service communication. Use for internal APIs when performance is critical.
+      4. Don't overthink this. Default to REST unless you have a specific reason not to. For real-time features, you'll also need WebSockets or Server-Sent Events, but design your core API first.
+      ```json
+      POST /v1/tweets
+      body: {
+      "text": string
+      }
+      
+      GET /v1/tweets/{tweetId} -> Tweet
+      
+      POST /v1/follows
+      body: {
+      "followee_id": string
+      }
+      
+      GET /v1/feed -> Tweet[]
+      ```
+      Notice how we use plural resource names (tweets, not tweet). The current user is derived from the authentication token in the request header, not from request bodies or path parameters.
+   
+      Never rely on sensitive information like user IDs from request bodies when they should come from authentication. Always authenticate requests and derive the current user from the auth token, not from user input.
 
 
 
