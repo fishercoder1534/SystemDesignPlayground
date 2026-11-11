@@ -27,4 +27,24 @@
    1. In order to scale streams, they can be partitioned across multiple servers. 
    2. Each partition can be processed by a different consumer, allowing for horizontal scaling. 
    3. Just like databases, you will need to specify a partition key to ensure that related events are stored in the same partition.
-2. 
+2. Multiple Consumer Groups: 
+   1. Streams can support multiple consumer groups, allowing different consumers to read from the same stream independently. 
+   2. This is useful for scenarios where you need to process the same data in different ways. 
+   3. For example, in a real-time analytics system, one consumer group might process events to update a dashboard, while another group processes the same events to store them in a database for historical analysis.
+3. Replication: 
+   1. In order to support fault tolerance, just like databases, streams can replicate data across multiple servers. 
+   2. This ensures that if a server fails, the data can still be read from another server.
+4. Windowing: 
+   1. Streams can support windowing, which is a way of grouping events together based on time or count. 
+   2. This is useful for scenarios where you need to process events in batches, such as calculating hourly or daily aggregates of data. 
+   3. Think about a real-time dashboard that shows mean delivery time per region over the last 24 hours.
+
+### What are the most common streaming technologies?
+1. Kafka
+2. Flink
+3. Kinesis
+
+
+--------
+Credit:
+1. https://www.hellointerview.com/learn/system-design/in-a-hurry/key-technologies#streams-event-sourcing
