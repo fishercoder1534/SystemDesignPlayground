@@ -26,3 +26,37 @@
    4. And resharding is painful. You can't just add a new shard without moving massive amounts of data around. 
    5. In interviews, bring up sharding **after** you've justified why a single database won't work. 
    6. Then clearly state your **shard key choice** and explain the tradeoff (fast for X queries, slow for Y queries). That's all most interviewers need to see.
+
+
+
+## My notes
+1. When it comes to **sharding**, it generally refers to **NoSQL** DBs.
+   1. It's relatively rare to shard PostgreSQL or MySQL DBs across the broader industry, whether hosted in the cloud or in-house. 
+   2. Most organizations never reach the traffic or storage limits that justify the massive engineering cost of sharding a relational database.
+2. Why Most Teams Avoid Sharding SQL
+   1. Modern Hardware Goes Very Far: 
+      1. Today’s cloud instances and on-premise servers can easily handle tens of terabytes of storage and tens of thousands of queries per second on a single primary node. 
+      2. Upgrading a server vertically is vastly **cheaper** than paying engineers to build and maintain a sharded architecture.
+   2. Simpler Steps Come First: Before sharding, teams almost always exhaust easier scaling tactics. 
+      1. These include adding read replicas, 
+      2. caching hot data in Redis, 
+      3. optimizing slow SQL queries, 
+      4. and partitioning large tables within a single database.
+   3. Severe Operational Overhead: 
+      1. Sharding traditional SQL breaks standard relational features like cross-shard JOIN queries, 
+      2. foreign keys, 
+      3. and simple ACID transactions. 
+      4. Managing schema migrations and rebalancing data across shards requires specialized tooling and constant engineering effort.
+3. Where SQL Sharding Actually Happens 
+   1. While uncommon overall, sharding SQL-like databases is standard practice in specific, **extreme**-scale scenarios:
+      1. Hyper-Scale Tech Companies: Companies like Uber, Slack, Shopify, and Instagram run **heavily sharded MySQL** or **PostgreSQL** fleets because their **write** volume far exceeds what any single machine on earth can handle.
+      2. Multi-Tenant B2B SaaS: Some enterprise software companies isolate large customers into separate database instances (tenant-based sharding) for strict security, compliance, and noisy-neighbor isolation rather than pure performance.
+      3. Distributed SQL Adoption: Rather than manually sharding legacy Postgres or MySQL, modern teams with massive write workloads increasingly adopt Distributed SQL databases (such as CockroachDB, TiDB, or YugabyteDB) or middleware like **Vitess**. 
+         1. These systems mimic standard SQL while automating sharding under the hood.
+
+
+
+-------------
+Credit:
+1. https://www.hellointerview.com/learn/system-design/in-a-hurry/core-concepts#sharding
+2. Gemini
