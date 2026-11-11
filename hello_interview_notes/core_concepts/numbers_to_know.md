@@ -1,4 +1,4 @@
-# Ad hoc notes for API Design
+# Ad hoc notes for Numbers to Know
 
 ## High level gists
 1. You don't need to do back-of-the-envelope calculations at the start of an interview. 
