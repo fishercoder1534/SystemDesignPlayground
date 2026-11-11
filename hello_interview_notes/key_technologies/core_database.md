@@ -32,3 +32,44 @@
 3. The most common relational databases are Postgres and MySQL. If you don't already have a favorite, we recommend you pick Postgres, but either one is fine.
 
 ## NoSQL Databases
+1. NoSQL databases are a broad category of databases designed to accommodate a wide range of data models, including key-value, document, column-family, and graph formats. 
+   1. Unlike relational databases, NoSQL databases do not use a traditional table-based structure and are often schema-less. 
+   2. This flexibility allows NoSQL databases to handle large volumes of unstructured, semi-structured, or structured data, and to scale horizontally with ease.
+2. NoSQL databases are strong candidates for situations where:
+   1. Flexible Data Models: Your data model is evolving or you need to store different types of data structures without a fixed schema.
+   2. Scalability: Your application needs to scale horizontally (across many servers) to accommodate large amounts of data or high user loads.
+   3. Handling Big Data and Real-Time Web Apps: You have applications dealing with large volumes of data, especially unstructured data, or applications requiring real-time data processing and analytics.
+3. The places where NoSQL databases excel are not necessarily places where relational databases fail (and vice-versa). 
+   1. For example, while NoSQL databases are great for handling unstructured data, relational databases can also have JSON columns with flexible schemas. 
+   2. While NoSQL databases are great for scaling horizontally, relational databases can also scale horizontally with the right architecture. 
+   3. When you're discussing NoSQL databases in your system design interview, make sure you're not making broad statements but instead discussing the specific features of the database you're using and how they will help you solve the problem at hand.
+4. Things you should know about NoSQL databases
+   1. **Data Models**: NoSQL databases come in many different flavors, each with its own data model. 
+      1. The most common types of NoSQL databases are:
+         1. key-value stores, 
+         2. document stores, 
+         3. column-family stores, and 
+         4. graph databases.
+   2. **Consistency Models**: NoSQL databases offer various consistency models ranging from strong to eventual consistency. 
+      1. Strong consistency ensures that all nodes in the system have the same data at the same time, 
+      2. while eventual consistency ensures that all nodes will eventually have the same data.
+   3. **Indexing**: Just like with relational databases, NoSQL databases support indexing to make data faster to query. 
+      1. The most common types of indexes are B-Tree and Hash Table indexes.
+   4. **Scalability**: NoSQL databases scale **horizontally** by using **consistent hashing** and/or **sharding** to distribute data across many servers.
+5. What are the most common NoSQL databases?
+   1. The most common NoSQL databases are DynamoDB, Cassandra, and MongoDB. 
+   2. DynamoDB is one of our favorites due to the breadth of features and how widely accepted it is. 
+   3. Cassandra is a good choice for write-heavy workloads due to its append-only storage model, but comes with some tradeoffs in functionality.
+
+
+
+
+
+--------
+Credit: 
+1. https://www.hellointerview.com/learn/system-design/in-a-hurry/key-technologies
+
+
+
+
+
