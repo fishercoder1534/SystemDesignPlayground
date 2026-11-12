@@ -123,6 +123,28 @@ For status codes, stick to the common ones: 200 for success, 201 for created res
 Don't overthink this in interviews - interviewers care more about whether you understand the difference between client errors (4xx) and server errors (5xx) than memorizing every status code. Even using X's to obscure the status code is typically totally fine.
 
 
+
+
+
+
+
+
+## GraphQL
+GraphQL emerged from Facebook in 2012 to solve a specific problem: their mobile app needed different data than their web app, but they were stuck with REST endpoints that returned fixed data structures. 
+The mobile team kept asking for new endpoints or modifications to existing ones and this was slowing down development on both sides.
+
+With REST, you typically have two unpleasant choices when different clients need different data. You can create multiple endpoints for different use cases, leading to endpoint proliferation and maintenance headaches. 
+Or you can make your endpoints return everything any client might need, leading to over-fetching where mobile clients download megabytes of data they don't use.
+
+GraphQL consolidates resource endpoints into a single endpoint that accepts queries describing exactly what data you want. 
+The client specifies the shape of the response, and the server returns data in that exact format.
+
+### How GraphQL Works
+### When to Use GraphQL in Interviews
+### GraphQL Schema Design
+ 
+
+
 -----------------------
 Credit:
 1. https://www.hellointerview.com/learn/system-design/core-concepts/api-design
