@@ -33,4 +33,18 @@ These are worth knowing since they come up in most real-world systems.
       1. If events filter by status, bookings should too, not state. 
       2. Once consumers learn the filter shape on one endpoint, they'll assume it works everywhere, and mismatched names across endpoints is one of the most common consistency violations in real API reviews. 
       3. In an interview, you don't need to enumerate every filter. Showing one filtered endpoint and saying the same conventions apply across the API is enough.
+3. **Idempotency Keys**
+   1. Here's a scenario interviewers love: a user books tickets, the request times out, and the client retries. Did the first request go through? If it did, the retry just booked a second set of tickets and charged the user twice. POST isn't idempotent, and "just don't retry" isn't an answer because networks fail all the time.
+   2. The fix is an idempotency key. The client generates a unique ID for each logical operation and sends it with the request:
+   ```json
+   POST /events/123/bookings
+   Idempotency-Key: 8e03978e-740c-4c2e-abd1-52f427d5c177
+   {
+      "tickets": [{"section": "VIP", "quantity": 2}]
+   }
+   ```
+   The server stores the key alongside the result of the first request. When a retry arrives with the same key, the server recognizes it and returns the stored response instead of processing the booking again. 
+   Same key, same result, no double charge. This is exactly how Stripe's API handles payment retries.
+   In an interview, bringing this up when your design has payments, bookings, or orders is a strong signal. 
+   It shows you're thinking about what happens when things fail, not just the happy path.
  
