@@ -219,10 +219,60 @@ Most interviewers appreciate that you know about GraphQL, but they usually prefe
 Protocols like gRPC use **binary** serialization and **HTTP/2**, making them faster than traditional **JSON-over-HTTP REST APIs** for service communication.
 
 ### How RPC Works
+Unlike REST's resource-oriented approach, RPC is action-oriented. You're essentially calling functions across a network as if they were local functions in your codebase. Here's how the same Ticketmaster operations might look with RPC:
+```json
+// Instead of GET /events/123
+getEvent(eventId: "123")
+
+// Instead of POST /events/123/bookings
+createBooking(eventId: "123", userId: "456", tickets: [...])
+
+// Instead of GET /events/123/tickets
+getAvailableTickets(eventId: "123", section: "VIP")
+```
+The most popular RPC protocol today is **gRPC**, which uses Protocol Buffers for serialization and HTTP/2 for transport. 
+1. This combo is **much** faster than REST's JSON-over-HTTP approach, especially for service-to-service communication. 
+2. Another notable RPC framework is **Apache Thrift**, originally developed at Facebook and now open source, which supports multiple programming languages and serialization formats.
+
 
 ### Protocol Buffers and Type Safety
 
+gRPC uses Protocol Buffers (protobuf) to define service contracts. You write a .proto file that describes your service methods and data structures:
+```json
+service TicketService {
+  rpc GetEvent(GetEventRequest) returns (Event);
+  rpc CreateBooking(CreateBookingRequest) returns (Booking);
+  rpc GetAvailableTickets(GetTicketsRequest) returns (TicketList);
+}
+
+message GetEventRequest {
+  string event_id = 1;
+}
+
+message Event {
+  string id = 1;
+  string name = 2;
+  int64 date = 3;
+  Venue venue = 4;
+}
+```
+
+From this single definition, gRPC generates client and server code in multiple programming languages. This means your Go backend service and your Java payment service can communicate with compile-time type safety, catching mismatches before deployment.
+
 ### When to Use RPC in Interviews
+RPC shines in microservice architectures where services need to communicate frequently and efficiently. If your interviewer mentions internal service communication, high-performance requirements, or polyglot environments (different services in different languages), RPC is likely a good choice.
+
+Consider RPC when:
+1. Performance is critical: Binary serialization and HTTP/2 make RPC **significantly** faster than JSON REST
+2. Type safety matters: Generated client code prevents many runtime errors
+3. Service-to-service communication: Internal APIs between your own services don't need REST's resource semantics
+4. Streaming is needed: gRPC supports bidirectional streaming for real-time features
+
+For our Ticketmaster example, you might use REST APIs for your public endpoints that mobile apps and web clients consume, but use gRPC for internal communication between your booking service, payment service, and inventory service.
+
+Unless explicitly asked, you won't typically outline your internal APIs during the API step of the interview. 
+
+Instead, focus on just the user facing APIs here. At most, you'll call out that internal services communicate over RPC during your high-level design.
 
 
 -----------------------
