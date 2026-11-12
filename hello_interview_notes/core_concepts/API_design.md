@@ -25,3 +25,8 @@
       1. While REST treats everything as resources, RPC lets you think in terms of actions and procedures - when your user service needs to quickly validate permissions with your auth service, an RPC call like checkPermission(userId, resource) is more natural than trying to model this as a REST resource. 
       2. If the interviewer specifically mentions microservices or internal APIs, consider RPC for those high-performance connections. 
       3. Use RPC when performance is critical.
+2. Default to **REST** unless you have a specific reason not to. 
+   1. It's well-understood, has great tooling, and works for 90% of use cases. 
+   2. If you're unsure, just say "I'll use REST APIs" and move on.
+3. For real-time features like notifications, chat, or live updates, you'll need different protocols like WebSockets or Server-Sent Events. 
+   1. These aren't traditional APIs - they're persistent connections. 
