@@ -29,4 +29,40 @@
    1. It's well-understood, has great tooling, and works for 90% of use cases. 
    2. If you're unsure, just say "I'll use REST APIs" and move on.
 3. For real-time features like notifications, chat, or live updates, you'll need different protocols like WebSockets or Server-Sent Events. 
-   1. These aren't traditional APIs - they're persistent connections. 
+   1. These aren't traditional APIs - they're persistent connections.
+
+## REST
+### Resource Modeling
+1. The foundation of good REST API design is identifying your **resources** correctly. 
+   1. If you've followed the delivery framework, resources are just your core entities.
+   2. Take Ticketmaster as an example. Your core entities might be events, venues, tickets, and bookings. These naturally map to REST resources:
+   3. Importantly, REST resources should represent things in your system, not actions. Instead of thinking about what users can do (like "book" or "purchase"), think about what exists in your system (events, venues, tickets, bookings).
+   4. When handling relationships between resources, you have two main approaches. 
+      1. You can nest resources when there's a clear parent-child relationship, like /events/{id}/tickets for all tickets belonging to a specific event. 
+      2. Alternatively, you can keep resources flat and use query parameters for filtering, like /tickets?event_id=123.
+      3. The key difference is whether the relationship is required or optional. 
+         1. Use path parameters (or nested resources) when the value is required - like /events/{id}/tickets where you always need to specify which event's tickets you want. 
+         2. Use query parameters when the filter is optional - like /tickets?event_id=123&section=VIP where you might want all tickets, or tickets filtered by event, or tickets filtered by both event and section.
+      4. In interviews, this distinction helps you make the right choice quickly. 
+         1. If the relationship is always required for the query to make sense, use a path parameter. 
+         2. If it's an optional filter among many possible filters, use a query parameter. 
+         3. The interviewer cares more about whether you can identify the right resources than perfect URL structure, but showing this understanding demonstrates good API design intuition.
+
+| Method | Endpoint | Description |
+| --- | --- | --- |
+| `GET` | `/events` | Get all events |
+| `GET` | `/events/{id}` | Get a specific event |
+| `GET` | `/venues/{id}` | Get a specific venue |
+| `GET` | `/events/{id}/tickets` | Get available tickets for an event |
+| `POST` | `/events/{id}/bookings` | Create a new booking for an event |
+| `GET` | `/bookings/{id}` | Get a specific booking |
+
+
+### HTTP Methods
+### Passing Data to APIs
+### Returning Data
+
+
+-----------------------
+Credit:
+1. https://www.hellointerview.com/learn/system-design/core-concepts/api-design
