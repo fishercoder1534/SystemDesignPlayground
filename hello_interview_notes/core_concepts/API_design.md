@@ -214,6 +214,17 @@ Most interviewers appreciate that you know about GraphQL, but they usually prefe
  
 
 
+## RPC
+**RPC** (Remote Procedure Call) is a communication paradigm that allows a client to call a procedure on a server and wait for a response without the client having to understand the underlying network details. 
+Protocols like gRPC use **binary** serialization and **HTTP/2**, making them faster than traditional **JSON-over-HTTP REST APIs** for service communication.
+
+### How RPC Works
+
+### Protocol Buffers and Type Safety
+
+### When to Use RPC in Interviews
+
+
 -----------------------
 Credit:
 1. https://www.hellointerview.com/learn/system-design/core-concepts/api-design
