@@ -140,8 +140,77 @@ GraphQL consolidates resource endpoints into a single endpoint that accepts quer
 The client specifies the shape of the response, and the server returns data in that exact format.
 
 ### How GraphQL Works
+Here's a simple example using our Ticketmaster scenario. Instead of separate REST endpoints for events, venues, and tickets, you'd have a single GraphQL endpoint that can handle queries like this:
+```json
+query {
+  event(id: "123") {
+    name
+    date
+    venue {
+      name
+      address
+    }
+    tickets {
+      section
+      price
+      available
+    }
+  }
+}
+```
+
+The server returns exactly what you asked for, nothing more, nothing less. If the mobile app only needs event names and dates, it can request just those fields. If the web dashboard needs comprehensive event details with venue information and ticket availability, it can request all of that in a single query.
+
 ### When to Use GraphQL in Interviews
+
+GraphQL is the right choice when you have diverse clients with different data needs. 
+1. If your interviewer mentions scenarios like "the mobile app needs different data than the web app" or asks about "avoiding over-fetching and under-fetching," they're likely looking for you to bring up GraphQL.
+2. It's also a good choice when frontend teams need to iterate quickly without backend changes. 
+3. With REST, adding a new field to a mobile screen often requires backend changes and API deployments. 
+4. With GraphQL, the frontend team can request additional fields as long as they exist in the schema. 
+5. However, GraphQL adds complexity. You need to implement query parsing, schema validation, and often sophisticated caching strategies. 
+6. For most system design interviews, REST is simpler and more straightforward unless the problem specifically calls for GraphQL's flexibility.
+
+
 ### GraphQL Schema Design
+If you do choose GraphQL, you'll need to think differently about design. 
+
+Instead of REST's resource endpoints, you design a schema that defines your data types and their relationships.
+
+For our Ticketmaster example, you'd start by modeling your core entities as GraphQL types:
+```json
+type Event {
+  id: ID!
+  name: String!
+  date: DateTime!
+  venue: Venue!
+  tickets: [Ticket!]!
+}
+
+type Venue {
+  id: ID!
+  name: String!
+  address: String!
+}
+
+type Query {
+  event(id: ID!): Event
+  events(limit: Int, after: String): [Event!]!
+}
+```
+
+The key difference from REST is that you define **relationships** directly in the **schema**. 
+1. An Event has a Venue, and clients can traverse that relationship in a single query.
+2. But this flexibility creates the N+1 problem, the biggest GraphQL gotcha. 
+3. When a client queries events with their venues, you might execute one query for events, then N separate queries for each venue. With 100 events, that's 101 database queries instead of 2. 
+4. The solution is **batching/dataloader patterns** that group related queries together, but it adds complexity you don't have with REST.
+
+GraphQL also handles authorization differently. 
+1. Instead of securing entire endpoints like REST, you secure individual fields. A user might see an event's name and date but not the venue data. 
+2. You can control this at the field level in your schema resolvers.
+
+In interviews, mention GraphQL when you see clear over-fetching or under-fetching problems, but don't default to it.
+Most interviewers appreciate that you know about GraphQL, but they usually prefer to see you solve the core architectural challenges with simpler tools first.
  
 
 
