@@ -114,6 +114,13 @@ POST /events/123/bookings?notify=true
 
 
 ### Returning Data
+An API response is made up of two parts:
+1. The status code, which indicates whether the request was successful or not.
+2. The response body, which contains the data you're returning to the client (typically JSON)
+
+For status codes, stick to the common ones: 200 for success, 201 for created resources, 400 for bad requests, 401 for authentication required, 404 for not found, and 500 for server errors.
+
+Don't overthink this in interviews - interviewers care more about whether you understand the difference between client errors (4xx) and server errors (5xx) than memorizing every status code. Even using X's to obscure the status code is typically totally fine.
 
 
 -----------------------
