@@ -114,6 +114,19 @@ Data modeling impact:
 Example technologies include Cassandra and HBase.
 
 ### Graph Databases
+Graph databases store data as **nodes** and **edges**, optimizing for traversing **relationships** between **entities**.
+
+When to consider over SQL: 
+1. Honestly? **Almost never** in interviews. 
+2. The classic examples are social networks and recommendation engines, but even **Facebook** models their **social graph** with **MySQL**. 
+3. If it's good enough for the world's largest social network, it's probably good enough for your interview.
+
+Example technologies include Neo4j and Amazon Neptune.
+
+Graph databases are a **common mistake in interviews**:
+1. They sound sophisticated but add unnecessary complexity. 
+2. Even "graph-heavy" companies like LinkedIn and Twitter use **SQL** for their **core relationship** data. 
+3. Other databases can handle the primary query patterns without the operational complexity that comes with specialized graph systems.
 
 
 
