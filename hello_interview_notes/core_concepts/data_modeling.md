@@ -242,9 +242,27 @@ There are a few key exceptions where denormalization might make sense:
 That being said, even if you need denormalized quick access for performance, you can just put a cache in front that has a denormalized representation of the data. Your source of truth stays clean and normalized, but your cache can have **pre-computed joins, aggregations**, or whatever structure makes reads fast.
 
 ### Scaling and Sharding
+When your data gets too large for a single database, you need to shard it across multiple machines. The key is choosing a **partition strategy** that keeps related data together.
+
+**Shard** by the **primary access pattern**. 
+1. If you mostly query "posts by user," shard by user_id. This keeps a user's posts on the same database, avoiding expensive cross-shard queries.
+2. Be careful with time-range sharding:
+   1. While it sounds appealing for "recent posts" queries, all current writes hit the same shard (the latest time range), creating a hot shard. 
+   2. This is usually an anti-pattern for write-heavy systems. 
+   3. Time-range partitioning works better for archival or analytics workloads where recent data is read-heavy but writes are spread out.
+
+**Avoid cross-shard queries** whenever possible. If your timeline feature needs to show posts from multiple users a user follows, and you've sharded by user_id, you'll have to query multiple shards and merge results. This is expensive and complex.
 
 ## Conclusion
+Data modeling is a core part of system design interviews, but it's not the focus. Your goal is to show that you can design a reasonable schema that supports your system's requirements, then move on.
 
+Start by outlining your core entities early in the interview. Then, when introducing a database component during the high-level design:
+1. Determine the type of database you'll use
+2. List the columns needed to fulfill the functional requirements for each entity
+3. Specify primary and foreign keys for each relationship
+4. Determine which columns need indexes (if any)
+5. Determine whether you need to denormalize for performance
+6. Consider whether sharding is necessary. If yes, choose a shard key that matches your main access pattern.
 
 
 
