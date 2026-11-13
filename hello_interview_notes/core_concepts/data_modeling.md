@@ -129,10 +129,31 @@ Graph databases are a **common mistake in interviews**:
 3. Other databases can handle the primary query patterns without the operational complexity that comes with specialized graph systems.
 
 
-
 ## Schema Design Fundamentals
 
 ### Start with Requirements
+
+Everything flows from three key factors that require careful consideration and were likely already determined during the requirements gathering and api design phases.
+
+1. **Data volume** determines where your data can physically live. 
+   1. A social media app with millions of users might need data spread across multiple data stores, which drives schema design choices. 
+   2. If user data and post data need to live on separate systems for performance or organizational reasons, they necessarily need distinct schemas with careful consideration of how they reference each other.
+2. **Access patterns** are the most important factor and drive most of your design decisions. 
+   1. How will your data be queried? 
+   2. A news feed that loads "recent posts by followed users" suggests you'll want denormalized data or carefully designed indexes. 
+   3. An analytics dashboard that aggregates data across time periods might need different table structures entirely. 
+   4. This comes naturally from your APIs. Just ask what queries will I need to support each endpoint?
+3. **Consistency** requirements determine how **tightly coupled** your data can be. 
+   1. Financial transactions need **strong consistency** (no partial charges), which often means keeping related data in the same database with ACID guarantees. 
+   2. But a user's activity feed can handle eventual consistency (it's okay if a like shows up a few seconds later), which allows you to distribute that data across separate systems with different schemas optimized for different access patterns.
+
+In interviews, explicitly **tie** your schema choices back to these factors. 
+1. For example, "Since we need to load feeds quickly and likes can be eventually consistent, I'll denormalize like counts into the posts table." 
+2. That shows you're reasoning instead of memorizing patterns.
+
+All of the schema design techniques that follow (entities, keys, normalization, indexes, sharding) are just tools to address these three factors.
+
+
 
 ### Entities, Keys & Relationships
 
