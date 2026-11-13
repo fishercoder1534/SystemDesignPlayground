@@ -154,8 +154,43 @@ In interviews, explicitly **tie** your schema choices back to these factors.
 All of the schema design techniques that follow (entities, keys, normalization, indexes, sharding) are just tools to address these three factors.
 
 
-
 ### Entities, Keys & Relationships
+Once you’ve identified your core entities, the next step is to map them into tables (or collections) with clear identifiers and relationships.
+
+For a social media app, you might have _users_, _posts_, _comments_, and _likes_. Each entity needs a primary key to identify individual records. Use system-generated IDs like user_id or post_id rather than business data like email addresses. **System-generated keys stay stable** even when business rules change.
+
+```json
+users: id (PK), username, email
+posts: id (PK), user_id (FK → users.id), content, created_at
+comments: id (PK), post_id (FK → posts.id), user_id (FK → users.id), content
+likes: user_id (FK → users.id), post_id (FK → posts.id)
+```
+
+This shows the core relationships: 
+1. each post belongs to one user (posts.user_id), 
+2. each comment belongs to one post and one user, 
+3. and likes connect users to posts. 
+4. The (PK) marks primary keys, (FK) marks foreign keys with arrows showing what they reference.
+
+In interviews, just pick an obvious primary key and explain why. "post_id will be our primary key so we can identify each post and reference it from comments and likes."
+
+With entities defined, connect them with relationships:
+1. **One-to-many (1:N)**: a user has many posts, a post has many comments.
+2. **Many-to-many (N:M)**: users like many posts, posts are liked by many users.
+3. **One-to-one (1:1)**: **rare** in practice, often a sign that **two tables should just be merged**.
+
+These relationships are enforced through **foreign keys** in SQL (e.g., posts.user_id → users.id) or by application logic in NoSQL. 
+1. Foreign keys help ensure referential integrity - meaning they prevent _orphaned_ records like a post referencing a user that doesn't exist, or comments pointing to deleted posts. 
+2. However, they come at a cost because the database has to validate each insert/update. 
+3. At very large scale, some companies drop them for write performance and enforce integrity at the application level. 
+4. In an interview, mentioning them shows you understand the trade-off.
+
+Finally, layer in **constraints** like _NOT NULL_, _UNIQUE_, or _CHECK_. 
+1. These enforce correctness at the database level (emails must be unique, prices must be positive). 
+2. They protect data quality, though they also add write overhead.
+
+Keep your schema grounded in the problem domain: users, tweets, follows if you're modeling Twitter, not abstract "entities" and "relationships." Then show how keys, foreign keys, and constraints keep that model correct and scalable.
+
 
 ### Indexing for Access Patterns
 
