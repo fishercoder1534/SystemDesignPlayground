@@ -85,6 +85,17 @@ You'll **de**normalize more aggressively, embedding related data within document
 2. Example technologies include MongoDB, Firestore, and CouchDB.
 
 ### Key-Value Stores
+Key-value stores provide simple lookups where you fetch values by exact key match. 
+1. They're extremely fast but offer limited query capabilities beyond that basic operation.
+2. When to consider this over SQL: For caching, session storage, feature flags, or any scenario where you only need to look up data by a single identifier. 
+3. They're also good for high-write scenarios where you need maximum performance and don't need complex queries.
+
+In practice, you'll often use both together. SQL as your source of truth with a key-value cache (like Redis) in front for hot data. This gives you fast access without sacrificing durability or complex queries.
+
+Data modeling impact: 
+1. Your schema becomes very flat. 
+2. You'll denormalize heavily and duplicate data across multiple keys to support different access patterns, since you can't join or query across relationships. 
+3. This is great for reads but terrible for consistency when data changes.
 
 ### Wide-Column Databases
 
