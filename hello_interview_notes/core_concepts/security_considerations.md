@@ -97,3 +97,12 @@ Common strategies include:
 
 
 You typically implement rate limiting at the API gateway level or using middleware in your application. When limits are exceeded, return a 429 Too Many Requests status code.
+
+
+In interviews, mentioning rate limiting shows you understand production concerns, but don't spend time designing the specific algorithms unless asked. A simple "**we'll implement rate limiting to prevent abuse**" is usually sufficient.
+
+
+
+----------
+Credit:
+1. https://www.hellointerview.com/learn/system-design/core-concepts/api-design#security-considerations
