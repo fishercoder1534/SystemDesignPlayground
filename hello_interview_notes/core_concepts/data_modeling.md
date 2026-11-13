@@ -99,6 +99,20 @@ Data modeling impact:
 
 ### Wide-Column Databases
 
+Wide-column databases organize data into column families where rows can have different sets of columns. They're optimized for massive write-heavy workloads and time-series data.
+
+When a user creates a new post, you add a new row keyed by (user_id, timestamp). Rows with the same partition key (user_id) are stored together, making writes fast (just append to the partition) and reads efficient (scan a contiguous range of a user's posts).
+
+When to consider over SQL: 
+1. When you have **enormous write volumes**, **time-series data**, or analytics workloads where you primarily **append data** and run aggregations. 
+2. Think telemetry, event logging, or IoT sensor data.
+
+Data modeling impact: 
+1. You'll design around query patterns even more than with SQL, often duplicating data across different column families to support various access patterns. 
+2. Time becomes a first-class citizen in your modeling.
+
+Example technologies include Cassandra and HBase.
+
 ### Graph Databases
 
 
