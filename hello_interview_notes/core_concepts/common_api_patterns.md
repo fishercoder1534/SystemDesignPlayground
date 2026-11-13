@@ -47,4 +47,28 @@ These are worth knowing since they come up in most real-world systems.
    Same key, same result, no double charge. This is exactly how Stripe's API handles payment retries.
    In an interview, bringing this up when your design has payments, bookings, or orders is a strong signal. 
    It shows you're thinking about what happens when things fail, not just the happy path.
+4. **Consistent Error Responses**
+   
+Status codes tell the client what category of thing went wrong, but the response body is where you say what actually happened. The pattern is a consistent error envelope that looks the same on every endpoint:
+```json
+{
+  "error": {
+    "code": "SEAT_UNAVAILABLE",
+    "message": "Section VIP has only 1 seat remaining"
+  }
+}
+```
+The code is a stable string that client code can branch on, so the mobile app can show a seat picker when it sees SEAT_UNAVAILABLE. 
+The message is for humans and can change without breaking anyone. 
+Keep the shape identical across every endpoint so consumers write their error handling once. 
+In interviews this is a one-liner, "errors return a **consistent** **envelope** with a machine-readable code," and then you move on.
  
+5. **Versioning Strategies**
+
+APIs evolve over time, and you need a strategy for handling changes without breaking existing clients. This is particularly important for public APIs where you can't control when clients update their code.
+
+The most common approach is **URL versioning**, where you include the version number in the path: /v1/events or /v2/events. This is explicit and easy to understand. Clients know exactly which version they're using just by looking at the URL. It's also simple to implement since you can route different versions to different code paths.
+
+**Header versioning** puts the version in an HTTP header instead: `Accept-Version: v2` or `API-Version: 2`. This keeps URLs cleaner and follows HTTP standards better, but it's less obvious to developers and harder to test in browsers.
+
+For interviews, URL versioning is usually the safer choice because it's more widely understood and easier to explain quickly. Unless the interviewer specifically asks about header versioning, stick with the URL approach.
