@@ -193,6 +193,16 @@ Keep your schema grounded in the problem domain: users, tweets, follows if you'r
 
 
 ### Indexing for Access Patterns
+Indexes are data structures that help the database find records quickly without scanning every row. 
+1. Think of them like the index in a book - instead of reading every page to find "normalization," you look it up in the index and jump directly to page 149. 
+2. While data modeling in an interview, you'll typically want to callout which columns are indexed and why.
+
+Your indexes should directly support your most important queries. For a social media app:
+1. Index on `posts.user_id` to quickly find all posts by a user
+2. Index on `posts.created_at` to load recent posts chronologically
+3. Composite index on `(user_id, created_at)` to efficiently load a user's recent posts
+
+In interviews, connect your indexes directly to your API endpoints. "The GET /users/{id}/posts endpoint needs an index on posts.user_id" shows you're thinking about real query performance.
 
 ### Normalization vs Denormalization
 
