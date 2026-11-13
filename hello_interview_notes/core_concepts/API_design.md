@@ -9,7 +9,8 @@
 3. If you're returning large result sets, you'll need pagination. 
    1. Cursor-based works better for real-time data where new items get added frequently, 
    2. but offset-based is fine for most cases. 
-   3. For authentication, use JWT tokens for user sessions and API keys for service-to-service calls. 
+   3. For authentication, use JWT tokens for user sessions and API keys for service-to-service calls.
+      1. No need to pass user_id in the request header which is less secure! Just use JWT token for user authentication!
    4. And if your system could get hammered by bots or abuse, mention rate limiting. 
    5. But don't go deep on any of these unless the interviewer specifically asks.
 
