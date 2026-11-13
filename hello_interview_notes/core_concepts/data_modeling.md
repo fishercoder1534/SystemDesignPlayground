@@ -46,6 +46,43 @@ The usual knock on relational databases is **scalability**, but this is often **
 3. Scaling isn't just about the database you choose, but how you architect around it.
 
 ### Document Databases
+Document databases store data as JSON-like documents with flexible schemas, making them good for rapidly evolving applications where you don't know all your data fields upfront. 
+1. Your data modeling becomes more about nesting and embedding related information within documents rather than normalizing across tables. 
+2. Notice how the same data from our SQL example gets restructured. 
+3. Instead of separate tables, we embed posts directly within each user document. 
+4. This eliminates joins but means updating a post requires finding and modifying the entire user document.
+
+Users collection:
+```json
+{
+  "_id": "507f1f77bcf86cd799439011",
+  "username": "john_doe",
+  "email": "john@example.com",
+  "posts": [
+    {
+      "content": "Hello, world!",
+      "created_at": "2024-01-01T10:00:00Z"
+    },
+    {
+      "content": "My first post",
+      "created_at": "2024-01-01T10:05:00Z"
+    }
+  ],
+  "created_at": "2024-01-01T10:00:00Z"
+}
+```
+
+System design interviews intentionally scope functional requirements to a **clear, concise** set. 
+1. This means you're unlikely to have "evolving schemas" in the first place, which removes the main reason to choose document databases. 
+2. Only consider them if your interviewer explicitly mentions rapidly changing data structures.
+
+#### When to consider over SQL: 
+When your schema changes frequently, when you have **deeply** nested data that would require **many joins** in SQL, or when different records have vastly different structures. A user profile system where some users have extensive work histories while others have minimal data fits this pattern.
+
+#### Data modeling impact: 
+You'll **de**normalize more aggressively, embedding related data within documents to avoid expensive lookups across collections. 
+1. This trades storage space and update complexity for read performance. 
+2. Example technologies include MongoDB, Firestore, and CouchDB.
 
 ### Key-Value Stores
 
