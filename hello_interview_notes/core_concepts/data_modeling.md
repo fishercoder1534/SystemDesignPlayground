@@ -24,3 +24,39 @@
       2. If you're building a social media app and your most common query is "get all posts for user X," you'd use *user_id* as the partition key. This makes that query a fast single-partition lookup. 
       3. But now queries like "get all posts mentioning hashtag Y" require scanning the entire table because you didn't design for that access pattern. 
       4. You have to know your queries upfront and design around them.
+
+
+## Database Model Options
+
+### Relational Databases (SQL)
+
+### Document Databases
+
+### Key-Value Stores
+
+### Wide-Column Databases
+
+### Graph Databases
+
+
+
+## Schema Design Fundamentals
+
+### Start with Requirements
+
+### Entities, Keys & Relationships
+
+### Indexing for Access Patterns
+
+### Normalization vs Denormalization
+
+### Scaling and Sharding
+
+## Conclusion
+
+
+
+
+---------
+Credit:
+1. https://www.hellointerview.com/learn/system-design/core-concepts/data-modeling
