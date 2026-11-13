@@ -27,8 +27,23 @@
 
 
 ## Database Model Options
+In interviews, the temptation is to show off by choosing exotic database types. **Resist** this. Most of the time, the right answer is a **relational database**. It's the default unless your requirements clearly signal a specialized model. Unless you have significant experience and, with it, strong opinions about another database, the recommendation is to stick with **PostgreSQL**.
+
+That doesn’t mean other database models aren’t worth knowing. Showing you understand when they might be useful demonstrates that you’re thinking about trade-offs, not just parroting the default. Still, the star of the show is SQL, so we’ll start there before briefly touching on the alternatives.
 
 ### Relational Databases (SQL)
+Relational databases organize data into tables with **fixed schemas**, where **rows represent entities** and **columns represent attributes**. They enforce relationships through **foreign keys** and provide **ACID guarantees** for transactions.
+
+SQL is great at handling complex queries. 
+1. If you need to fetch "all posts by users that a given user follows, ordered by recency," joins make that straightforward. 
+2. However, be careful with multi-table joins like this - they can become performance traps at scale. 
+3. In interviews, mentioning complex reporting-style queries often raises yellow flags about performance, so you'll want to think through whether they're actually performant enough or if you need denormalized views, caching, or pre-computed results. 
+4. And when strong consistency is a non-functional requirement, like ensuring payments don't double-charge or inventory doesn't oversell, **SQL's ACID guarantees** are the right tool for the job.
+
+The usual knock on relational databases is **scalability**, but this is often **exaggerated**. 
+1. Modern SQL databases scale with techniques like **read replicas**, **sharding**, **connection pooling**, and **caching**. 
+2. Some of the largest companies in the world (Facebook, Airbnb) rely on relational foundations. 
+3. Scaling isn't just about the database you choose, but how you architect around it.
 
 ### Document Databases
 
