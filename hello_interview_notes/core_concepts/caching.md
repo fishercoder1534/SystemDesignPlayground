@@ -76,7 +76,23 @@ Client-side caching stores data close to the requester to avoid unnecessary netw
 But it can also mean caching within a client library. For example, Redis clients cache cluster metadata like which nodes are in the cluster and which slots are assigned to them. That way, the client can route requests directly to the right node without querying the cluster on every operation.
 
 For user-facing caching, you have limited control from the backend. Data can go stale and invalidation is harder. The Strava app keeps your run data on the device while you are offline and syncs it later. A browser reusing a previously downloaded image from disk is also caching.
+
 ### In-Process Caching
+Most candidates, and engineers, overlook the fact that servers run on machines with a lot of memory. Each hardware generation ships more of it. You can use that memory to cache data directly inside the application process instead of always calling out to Redis or the database.
+
+The idea is simple: if your service keeps requesting the same small pieces of data again and again, store them in a local cache inside the process. Reads from local memory are even faster than reads from Redis because they avoid any network call.
+
+This light-weight form of caching makes sense for small pieces of data that are requested frequently like:
+1. Configuration values
+2. Feature flags
+3. Small reference datasets
+4. Hot keys
+5. Rate limiting counters
+6. Precomputed values
+
+In-process caching is blazing fast, but it comes with obvious limitations. Each instance of your application has its own cache, so cached data is not shared across servers. If one instance updates or invalidates a cached value, the others will not know.
+
+Use in-process caching for **small**, **frequently accessed** values that **rarely change**. It is great for speed but not a replacement for Redis. In system design interviews, mention this only as an optimization layer after you have already introduced an external cache.
 
 ## Cache Architectures
 ### Cache-Aside (Lazy Loading)
