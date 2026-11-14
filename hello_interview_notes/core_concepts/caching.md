@@ -160,8 +160,27 @@ TTL is not an eviction policy by itself. Instead, it sets an expiration time for
 TTL is a must have when data must eventually refresh, like API responses or session tokens.
 
 ## Common Caching Problems
+Caching makes systems faster, but it also introduces new failure modes. These problems show up in real systems at scale, and interviewers often use them to test whether you understand the trade-offs of caching, not just the benefits. If you bring up caching in an interview, you should also show that you can handle these edge cases.
+
 ### Cache Stampede (Thundering Herd)
+A cache stampede happens when a popular cache entry expires and many requests try to rebuild it at the same time. There is a brief window, even if only a second, where every request misses the cache and goes straight to the database. Instead of one query, you suddenly have hundreds or thousands, which can overload the database.
+
+For example, imagine your system caches the homepage feed with a TTL of 60 seconds. When the cache expires at exactly 12:01:00, every request at that moment misses the cache and queries the database. If traffic is high, this spike can overwhelm the database and cause cascading failures.
+How to handle it:
+1. **Request coalescing (single flight)**: Allow only one request to rebuild the cache while others wait for the result. This is the most effective solution.
+2. **Cache warming**: Refresh popular keys proactively before they expire. This only helps when using TTL-based expiration. If you invalidate cache on writes instead, warming does not prevent stampedes.
+
 ### Cache Consistency
+Cache consistency problems are some of the most commonly discussed in system design interviews. They happen when the cache and database return different values for the same data. This is common because most systems read from the cache but write to the database first. That creates a window where the cache still holds stale data.
+
+For example, if a user updates their profile picture, the new value is written to the database but the old value might still be in the cache. Other users may see the outdated profile picture until the cache eventually refreshes.
+There is no perfect solution. You choose a strategy based on how fresh the data must be.
+
+How to handle it:
+1. **Cache invalidation on writes**: Delete the cache entry after updating the database so it gets repopulated with fresh data.
+2. **Short TTLs for stale tolerance**: Let slightly stale data live temporarily if eventual consistency is acceptable.
+3. **Accept eventual consistency**: For feeds, metrics, and analytics, a short delay is usually fine.
+
 ### Hot Keys
 
 ## Caching in System Design Interviews
