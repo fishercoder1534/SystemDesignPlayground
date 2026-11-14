@@ -130,6 +130,15 @@ This makes writes very fast, but introduces risk:
 4. Common in analytics and metrics pipelines.
 
 ### Read-Through Caching
+With read-through caching, the cache acts as a smart proxy. Your application never talks to the database directly. On a cache miss, the cache itself fetches from the database, stores the data, and returns it.
+
+This is the read equivalent of write-through. In both patterns, the cache acts as an intermediary that handles database operations. Read-through manages reads, write-through manages writes. Systems often combine both patterns.
+
+This centralizes caching logic but adds complexity and usually requires a specialized caching library or service:
+1. It is less common in practice than cache-aside. 
+2. CDNs are a form of read-through cache. When a CDN gets a cache miss, it fetches from your origin server, caches the result, and returns it. 
+3. But for application-level caching with Redis, cache-aside is far more common. 
+4. Generally speaking, there are very few reasons to propose this pattern in system design interviews unless you're discussing CDNs or similar infrastructure.
 
 ## Cache Eviction Policies
 ### LRU (Least Recently Used)
