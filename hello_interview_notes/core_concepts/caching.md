@@ -28,3 +28,61 @@
 6. CDN caching is different. It's for static assets like images, videos, and JavaScript files served from edge locations close to users. 
    1. In-process caching works for small values that change rarely, like feature flags or config data. 
    2. But for your core application data, external caching with Redis is the default.
+
+
+-----------
+In system design interviews, caching comes up almost every time you need to handle **high read traffic**. Your database becomes the bottleneck, latency starts creeping up, and the interviewer is waiting for you to say the word: cache.
+
+Reading a user profile from **Postgres** may take **50 ms**, but reading from an in-memory cache like Redis takes just **1 ms**. That's a 50x improvement in latency. Databases store data on disk, and every query pays the cost of disk access. Memory sits much closer to the CPU and avoids that entirely.
+
+Caches are essential for scalable systems. They reduce load on the database and cut latency dramatically. But they also create new challenges around **invalidation** and **failure handling**.
+
+This breakdown covers the basics of caching, when and where to use it, common pitfalls, and how to talk about caching clearly in interviews.
+
+## Where to Cache
+Caching shows up in multiple layers of a system:
+1. Browsers cache. 
+2. CDNs cache. 
+3. Applications cache. 
+4. Even databases have built-in caching layers.
+
+### External Caching
+An external cache is a standalone cache service that your application talks to over the network. This is what most people think of when they hear caching. You store frequently accessed data in something like Redis or Memcached so you do not have to hit the database every time.
+
+External caches scale well because every application server can share the same cache. They also support eviction policies like LRU and expiration via TTL so your memory footprint stays controlled.
+
+In system design interviews, **external caching with Redis** is the **default** answer when discussing caching strategies. Interviewers expect you to mention it for any high-traffic system. Start here, then layer on other caching types such as CDN or client-side caching only if the problem calls for them.
+
+### CDN (Content Delivery Network)
+### Client-Side Caching
+### In-Process Caching
+
+## Cache Architectures
+### Cache-Aside (Lazy Loading)
+### Write-Through Caching
+### Write-Behind (Write-Back) Caching
+### Read-Through Caching
+
+## Cache Eviction Policies
+### LRU (Least Recently Used)
+### LFU (Least Frequently Used)
+### FIFO (First In First Out)
+### TTL (Time To Live)
+
+## Common Caching Problems
+### Cache Stampede (Thundering Herd)
+### Cache Consistency
+### Hot Keys
+
+## Caching in System Design Interviews
+### When to Bring Up Caching
+### How to Introduce Caching
+
+## Conclusion
+
+
+
+
+----------
+Credit:
+1. https://www.hellointerview.com/learn/system-design/core-concepts/caching
