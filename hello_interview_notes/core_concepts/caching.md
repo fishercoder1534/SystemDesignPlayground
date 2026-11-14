@@ -121,6 +121,14 @@ In system design interviews, write-through is **less common** than **cache-aside
 Use this when **reads must** always return **fresh** data and your system can tolerate slightly slower writes.
 
 ### Write-Behind (Write-Back) Caching
+With write-behind caching, the application writes only to the cache. The cache batches and writes the data to the database asynchronously in the background.
+
+This makes writes very fast, but introduces risk:
+1. If the cache crashes before flushing, you can lose data. 
+2. This is best for workloads where occasional data loss is acceptable. 
+3. Use this when you need high write throughput and eventual consistency is acceptable. 
+4. Common in analytics and metrics pipelines.
+
 ### Read-Through Caching
 
 ## Cache Eviction Policies
