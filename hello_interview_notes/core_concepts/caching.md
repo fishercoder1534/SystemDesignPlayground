@@ -95,7 +95,17 @@ In-process caching is blazing fast, but it comes with obvious limitations. Each 
 Use in-process caching for **small**, **frequently accessed** values that **rarely change**. It is great for speed but not a replacement for Redis. In system design interviews, mention this only as an optimization layer after you have already introduced an external cache.
 
 ## Cache Architectures
+Not all caching works the same way. How you read from and write to the cache changes performance, consistency, and complexity. These are the four core cache patterns you should know for system design interviews.
+
 ### Cache-Aside (Lazy Loading)
+This is the most common caching pattern and the one you should default to in interviews.
+How it works:
+1. Application checks the cache.
+2. If the data is there, return it.
+3. If not, fetch from the database, store it in the cache, and return it.
+
+Cache-aside only caches data when needed, which keeps the cache lean. The downside is that a cache miss causes extra latency.
+
 ### Write-Through Caching
 ### Write-Behind (Write-Back) Caching
 ### Read-Through Caching
