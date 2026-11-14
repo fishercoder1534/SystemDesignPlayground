@@ -141,7 +141,12 @@ This centralizes caching logic but adds complexity and usually requires a specia
 4. Generally speaking, there are very few reasons to propose this pattern in system design interviews unless you're discussing CDNs or similar infrastructure.
 
 ## Cache Eviction Policies
+Caches have limited memory, so they need a strategy for deciding which entries to remove when full. These strategies are called eviction policies.
+
 ### LRU (Least Recently Used)
+LRU evicts the item that has not been accessed for the longest time. It tracks access order using a linked list or ring buffer so the least recently used item can be removed in constant time.
+It is the default in many systems because it adapts well to most workloads where recently used data is likely to be used again.
+
 ### LFU (Least Frequently Used)
 ### FIFO (First In First Out)
 ### TTL (Time To Live)
